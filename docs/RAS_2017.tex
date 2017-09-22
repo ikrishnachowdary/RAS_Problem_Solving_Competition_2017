@@ -1,0 +1,108 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+\makeatother
+\let\Oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+\usepackage{caption}
+\DeclareCaptionLabelFormat{nolabel}{}
+\captionsetup{labelformat=nolabel}
+
+\usepackage{adjustbox} % Used to constrain images to a maximum size 
+\usepackage{enumerate} % Needed for markdown enumerations to work
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath} % Equations
+\usepackage{amssymb} % Equations
+\usepackage{mathspec}
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\setmainfont[]{Futura LT Medium}
+\setmonofont[Mapping=tex-ansi]{Fantasque Sans Mono}
+\usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+\usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+\usepackage{fancyvrb} % verbatim replacement that allows latex
+\usepackage{grffile} % extends the file name processing of package graphics 
+\usepackage{hyperref}
+\usepackage{longtable} % longtable support required by pandoc >1.10
+\usepackage{booktabs}  % table support for pandoc > 1.12.2
+\usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{urlcolor}{rgb}{0,.145,.698}
+\definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+\definecolor{citecolor}{rgb}{.12,.54,.11}
+\definecolor{color1}{HTML}{006747}
+\definecolor{color2}{HTML}{EB974E}
+\definecolor{color3}{HTML}{F5D76E}
+\definecolor{color4}{HTML}{F1A9A0}
+\definecolor{color5}{HTML}{4183D7}
+\newcommand{\Lecture}{Lecture}
+\newcommand{\moduletitle}[1]{}
+\newcommand{\submoduletitle}[1]{}
+\newcommand{\modulesection}[1]{}
+\newcommand{\modulesubsection}[1]{}
+\newcommand{\modulecomment}[1]{#1}
+\newcommand{\moduleobjectives}[1]{}
+\newcommand{\References}[1]{\section*{References} #1}
+\newcommand{\moduletext}[2]{#1}
+\usepackage{sectsty}
+\usepackage{slashed}
+\subsectionfont{\sffamily\bfseries}
+\sectionfont{\sffamily\bfseries}
+\chapterfont{\sffamily\bfseries}
+\usepackage[Bjornstrup]{fncychap}
+\usepackage{multirow}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{titlesec} % Allows customization of titles
+
+\newcommand{\notefront}{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \vspace{5mm}
+      \hbox to 5.78in { {\Large \hfill \textbf{RAS Problem Solving Competition - 2017} \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\large \hfill \textbf{Team Name - FindX} \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\hfill \today \hfill} }
+      \vspace{2mm}
+    }
+  }
+  \end{center}
+}
+    
+\begin{document}
+
+\notefront 
+
+\section{Team Member 1:}
+
+\textit{Name:} \textbf{Aritra Pal} \\
+\textit{Email:} aritra1@mail.usf.edu \\
+\textit{Organization:} \textbf{University of South Florida} \\
+\textit{Position:} \textbf{Doctoral Candidate} \\
+\textit{Prior Experience in problems related to Railroad Analytics:} \textbf{No} \\
+\textit{Motivation:} \textbf{I am interested in the application of data science and operations research in Logistics and Transportation.}
+
+\section{Team Member 2:}
+
+\textit{Name:} \textbf{Venkata Satya Sai Krishna Chowdary Kolli} \\
+\textit{Email:} chowdary@mail.usf.edu \\
+\textit{Organization:} \textbf{University of South Florida} \\
+\textit{Position:} \textbf{Masters Student} \\
+\textit{Prior Experience in problems related to Railroad Analytics:} \textbf{No} \\
+\textit{Motivation:} \textbf{I am interested in numbers and curious to get insights from them. Moreover, this is my first data science exposure to railroad analytics which motivated me to test my skill set in this field.}
+
+\section{Team Member 3:}
+
+\textit{Name:} \textbf{Naveen Karapakula Venkateswara} \\
+\textit{Email:} naveenk2@mail.usf.edu \\
+\textit{Organization:} \textbf{University of South Florida} \\
+\textit{Position:} \textbf{Masters Student} \\
+\textit{Prior Experience in problems related to Railroad Analytics:} \textbf{No} \\
+\textit{Motivation:} \textbf{The idea of transforming data to information and make decisions is an interesting task. The curiosity to know how and why, and predicting outcomes for better decision-making abilities are of my interests and motivates me to compete in this challenging task.}
+
+\end{document}

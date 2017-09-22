@@ -1,0 +1,87 @@
+---
+output:
+  pdf_document: default
+title: "Predicting Peak Kips and Preventing False Alarms in Railways"
+author: "Venkata Satya Sai Krishna Chowdary Kolli, Naveen Karapakula Venkateswara and  Aritra Pal"
+abstract: "Peak kips refers to the vertical force imposed by a wheel of a car on the rail. The higher the peak kip, more is the damage caused to the wheel and the track. Predicting peak kips is beneficial for the railway companies, as that information can be used to identify defective cars. This prevents loss incurred due to the use of defective car and delay in shipments. Similarly, to ensure safety of the railways, the sensors along the tracks detect wheel defects and alert the operators by triggering an alarm. However, it is paramount that any false alarms should be prevented. Thus, in this paper, we predict the peak kips of a wheel of an empty car under the next loaded status, followed by prediction of an alarm if the respective peak kips value is greater than 90. We solve both of these problems using state-of-the-art statistical and machine learning techniques, which include both linear and tree based models. The probability of the predicted peak value of an observation to be within +- 2 of the actual value is 0.224."
+geometry: margin=1in
+fontfamily: mathpazo
+fontsize: 11pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Railway transportation is the forefront of US transportation. Ensuring safety is the prime concern of the railway authorities while providing services. Peak kips is one of the ways for assessing the health of the tracks. It is measure of the vertical force imposed on the rail tracks by the wheels of the car. Kip is a unit of force which equals 1000 lbs. Peak kips is used for measuring load through detectors. This is an important parameter for the railway companies for identifying non-defective wheels and for safe transportation. Peak kips are measured with the help of Wheel Impact Load Detectors (WILD sensors), placed on the sides of rail tracks. 
+
+Peak kips is the sum of the average kips and dynamic kips, meaning it comprises of the sum of the static part of the peak force associated with weight of the car and the part of the peak force associated with the thread defects. An empty car has lower kip reading while a loaded car has higher kip reading. A wheel peak kips value within 90 is considered to be safe. Any wheel with a value above 90 is considered defective and needs to be addressed immediately. To address this issue and avoid financial loss, sensors need to trigger alarms based on the predicted peak kips. False alarms could lead complications to the operators and result in delay of shipments. It is therefore necessary to prevent false alarms to meet the deadlines. 
+
+It is essential to predict the wheel peak kips for the railway companies, to avoid delay in shipments, increase safety and overcome huge loss to the companies. Thus, it is vital for the railway companies to have a statistical model capable of predicting wheel peak kips. This will help them identify any defective wheels, and subsequently triggering an alarm when the peak kips crosses a certain threshold. The primary objective of the project is to develop a statistical model capable of predicting wheel peak kips and subsequently triggering an alarm when the peak kips is greater than 90. To understand of significance of independent variables, we used a simple linear regression model. However for predicting the peak kips value we used (Extreme) Gradient Boosting (XGBoost). The probability of the predicted peak value of an observation to be within +- 2 of the actual value is 0.22361192784588088.
+
+\section{Methodology}:
+
+Assumptions:
+
+Dependent Variables: Some descriptive statistics using boxplots
+
+Independent Variables: Some descriptive statistics using boxplots
+
+Data Collection
+
+The data for analysis (Testing data set, Training data set) was provided by INFORMS Railroad Application Section (RAS). 
+
+Data Cleaning 
+
+For this problem, we created a new variable “weight” of the load that will be loaded into the empty car. We replaced all the values in “weight” column from Loaded cars with “empty cars”.
+
+The raw data provided required cleaning and to simplify the analysis we cleaned the data based on the following assumptions: 
+
+(1) Observations with equipment speed (edr\_eqp\_spd) less than 20 MPH is not considered for the analysis as the WILD detector works efficiently depicting accurate kip reading when the speed of equipment is above 20 MPH. 
+
+(2) An empty equipment/car with peak kips value greater than or equal to 90 is not of interest as this reading is considered defective and would be replaced. 
+
+Further we decomposed/split the variables unq\_whl\_id, trn\_id and vndr\_edr\_ts\_cst into atomic parts as these variables had many parameters combined. This split of variables helped us in better understanding and gain additional knowledge about each of the split parameters (For instance,  car\_initial, car\_number, axle\_ side and eqp\_axle\_nbr were combined under a single variable unq\_whl\_id. Decomposing these variables into atomic form helped in gaining insights about the data). 
+
+We grouped the observations using the variable “unq_whl_id” and removed the observations with frequency of 1, as these observations do not have an empty to load (E->L) matching pair.
+A new variable “Weight” was created which comprises the difference of variables “eqp_grs_tons” and “tare”, this gives an estimate of weight of the load in a car.  
+
+We further cleaned the dataset based on the load status. We combined the car_initial, car_number, axle_ side and eqp_axle_nbr to uniquely identify a wheel and check for the load status. For each wheel with load status “E” we paired the observation with the load status “L” for the same wheel id, with a gap of less than or equal to 10 days. The timestamp was ordered chronologically. The time difference between “E” to “L” was found using the variable “vnder_edr_ts_cst” (timestamp of the kips readings). For instance, if a wheel with id EQVI123456L5 has loaded status “E” as on today we matched the observation of the same wheel to check for load status “L” using the difference in timestamp of the kip reading with a range of <=10 days. We do this to predict the next loaded status within 10 days of the previous empty status. 
+The dataset is now modified with unique wheel id’s of car with load status “E” and the corresponding observation with load status “L”. For observations with load status “E” we replaced the whl_peak_kips, whl_avg_kips, whl_dyn_kips, whl_dyn_ratio and weight of the car from the corresponding observation with load status “L” and considered only the empty cars for analysis.
+The negative readings of “kipdays” were replaced by zeros to make it a continuous variable.       
+
+Data Transformation
+
+The training data set initially consisted of 7032197 observations with 22 variables. Post cleaning and splitting the numbers reduced to 810834 observations and 39 variables.
+
+Training and Testing Set
+
+We split the training dataset in 80:20 ratio, where 80\% accounts to training set and the rest 20\% is for validation of results.      
+
+Statistical Models:
+    1. Linear Regression:
+    2. Decision Tree
+    3. Ensemble Models:
+        1. Bagging - Random Forest
+        2. Gradient Boosting
+
+\section{Experimental Results}
+
+```{r, echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE}
+library(ggplot2)
+data = read.csv("../results/Statistically_Significant_Variables_Linear_Regression.csv", header = FALSE, nrow=20)
+g = ggplot(data, aes(x=V1, y=V2))
+g + geom_bar(stat="identity") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + labs(x="Important Variables", y="t statistic")
+```
+
+Parameter Tuning
+
+Model Selection
+
+|                    	| Predicted False Alarm 	| Predicted True Alarm 	|  Total 	|
+|:------------------:	|:---------------------:	|:--------------------:	|:------:	|
+| Actual False Alarm 	|         391889        	|         3020         	| 394909 	|
+|  Actual True Alarm 	|          2345         	|          42          	|  2387  	|
+|        Total       	|         394234        	|         3062         	| 397296 	|
